@@ -132,7 +132,7 @@ export function parseRouteText(text) {
   const waypoints = [];
   for (const raw of String(text).split(/\r?\n/)) {
     const line = raw.trim();
-    if (!line || /^(#|name|wp|lat)/i.test(line)) continue;
+    if (!line || /^(#|name[,;	 ]|lat(itude)?[,;	 ])/i.test(line)) continue; // header lines only
     if (line.startsWith("$")) {
       const f = line.split(",");
       const kind = f[0].slice(3);
