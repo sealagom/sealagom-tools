@@ -157,7 +157,7 @@ def format_position(lat: float, lon: float, decimals: int = 2) -> str:
 
 if __name__ == "__main__":  # a few checks: python sealagom_tools.py
     d, c = rhumb_line((51.0, 1.5), (36.1, -5.4))
-    assert 950 < d < 1000 and 190 < c < 200, (d, c)
+    assert 930 < d < 960 and 190 < c < 205, (d, c)  # Dover to Gibraltar, about 943 NM
     g, _ = great_circle((0, 0), (0, 1))
     assert abs(g - 60.0) < 0.2, g
     w = true_wind(90, 10, 45, 20)

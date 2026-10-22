@@ -7,7 +7,7 @@ test("distances and courses", () => {
   const gc = greatCircle({ lat: 0, lon: 0 }, { lat: 0, lon: 1 });
   assert.ok(Math.abs(gc.distance - 60) < 0.2 && Math.abs(gc.course - 90) < 1e-6);
   const rl = rhumbLine({ lat: 51.0, lon: 1.5 }, { lat: 36.1, lon: -5.4 });
-  assert.ok(rl.distance > 950 && rl.distance < 1000 && rl.course > 190 && rl.course < 200, JSON.stringify(rl));
+  assert.ok(rl.distance > 930 && rl.distance < 960 && rl.course > 190 && rl.course < 205, JSON.stringify(rl)); // Dover to Gibraltar, about 943 NM
   const back = rhumbDestination({ lat: 51.0, lon: 1.5 }, rl.course, rl.distance);
   assert.ok(Math.abs(back.lat - 36.1) < 0.01 && Math.abs(back.lon + 5.4) < 0.01, JSON.stringify(back));
   assert.ok(Math.abs(routeLength([{ lat: 0, lon: 0 }, { lat: 0, lon: 1 }, { lat: 1, lon: 1 }]) - 120) < 0.3);

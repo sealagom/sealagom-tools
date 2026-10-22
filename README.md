@@ -17,7 +17,7 @@ import { rhumbLine, eta, trueWind, beaufort } from "./js/navigation.mjs";
 import { parseRoute } from "./js/route-files.mjs";
 import { analyseRoute, searchPorts } from "./js/api.mjs";
 
-const leg = rhumbLine({ lat: 51.0, lon: 1.5 }, { lat: 36.1, lon: -5.4 });     // { distance: 979.4, course: 195.2 }
+const leg = rhumbLine({ lat: 51.0, lon: 1.5 }, { lat: 36.1, lon: -5.4 });     // { distance: 942.9, course: 198.4 }
 const { eta: arrival } = eta("2026-10-22T06:00:00Z", leg.distance, 14);
 const wind = trueWind(195, 14, 40, 22);                                          // { tws, twd, twa }
 console.log(leg, arrival.toISOString(), wind, "Bf", beaufort(wind.tws));
@@ -36,7 +36,7 @@ arrival, hours = eta("2026-10-22T06:00:00Z", d, 14)
 print(d, c, arrival, true_wind(195, 14, 40, 22), beaufort(22))
 ```
 
-Tests: `node --test tests/` and `python python/sealagom_tools.py`.
+Tests: `node --test tests/navigation.test.mjs` and `python python/sealagom_tools.py`.
 
 ## Formulas
 
