@@ -11,7 +11,7 @@ plus thin helpers for the SeaLagom API (ports, distances, route analysis, weathe
 | Nautical time zone from longitude, positions as DD-MM.MMN and back | same | same |
 | Route files: RTZ, GPX, KML, CSV and TXT lists, NMEA WPL | `js/route-files.mjs` | use the API: `POST /api/v2/route/` reads them all |
 | Route converter: any of those in, RTZ, GPX, KML, CSV or NMEA out | `js/route-convert.mjs` | `POST /api/v2/route/convert/?to=rtz` |
-| Ports, port distances, coast stations, warnings near, weather, route analysis with weather | `js/api.mjs` | `python/sealagom.py` in the API kit |
+| Ports, port distances, coast stations, vessels by name or MMSI, warnings near, weather, route analysis with weather | `js/api.mjs` | `python/sealagom.py` in the API kit |
 
 ```js
 import { rhumbLine, eta, trueWind, beaufort } from "./js/navigation.mjs";
@@ -63,8 +63,8 @@ Time zones: the nautical zone of the longitude, letters A to M east (no J) and N
 
 ## The API
 
-The helpers in `js/api.mjs` call https://www.sealagom.com. The public ones need no key; the
-weather and the route analysis need one (https://www.sealagom.com/profile/?tab=api, or sign in
+The helpers in `js/api.mjs` call https://www.sealagom.com with a key (free keys carry the Developer
+allowance; the same key for ports, stations, vessels, weather and the route analysis) (https://www.sealagom.com/profile/?tab=api, or sign in
 with GitHub). When a plan does not cover a call, the error carries `upgrade`: the plan, the price
 for that request and the links. The full API kit (OpenAPI spec, clients, MCP server) is at
 https://www.sealagom.com/github/.

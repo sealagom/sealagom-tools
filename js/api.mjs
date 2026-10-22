@@ -16,27 +16,27 @@ async function get(path, params = {}, key) {
 
 /** Port search: name, UN/LOCODE or country; rank sorts the biggest first. No key needed. */
 export function searchPorts(q, { country, page = 1, pageSize = 20, key } = {}) {
-  return get("/api/public/ports/", { q, country, sort: "rank", page, page_size: pageSize }, key);
+  return get("/api/v2/ports/", { q, country, sort: "rank", page, page_size: pageSize }, key);
 }
 
 /** One port: VTS, pilotage, limits, anchorages, terminals. No key needed. */
 export function port(slug, key) {
-  return get(`/api/public/ports/s/${encodeURIComponent(slug)}/`, {}, key);
+  return get(`/api/v2/ports/${encodeURIComponent(slug)}/`, {}, key);
 }
 
 /** Sea distance between two ports (slugs) along shared ECDIS routes. No key needed. */
 export function portDistance(fromSlug, toSlug, key) {
-  return get("/api/public/port-distances/", { from: fromSlug, to: toSlug }, key);
+  return get("/api/v2/port-distances/", { from: fromSlug, to: toSlug }, key);
 }
 
 /** Rescue centres and DSC coast stations near a position. No key needed. */
 export function stationsNear(lat, lon, radiusNm = 200, key) {
-  return get("/api/public/coast-stations/near/", { lat, lon, radius_nm: radiusNm }, key);
+  return get("/api/v2/stations/near/", { lat, lon, radius_nm: radiusNm }, key);
 }
 
 /** Warnings in force within radius NM of a position. No key needed. */
 export function warningsNear(lat, lon, radiusNm = 30, key) {
-  return get("/api/public/warnings/near/", { lat, lon, radius_nm: radiusNm }, key);
+  return get("/api/v2/near/", { lat, lon, radius_nm: radiusNm }, key);
 }
 
 /** Wind, sea and the forecast at a position and time. Needs a key. */
@@ -72,4 +72,9 @@ export async function analyseRoute(waypoints, { speedKn = 12, corridorNm = 10, d
     }
   }
   return result;
+}
+
+/** A vessel by name, call sign or MMSI: the warnings naming it, its rows (name, MMSI, call sign), stations with that MMSI, AIS when on. */
+export function findVessel(q, key) {
+  return get("/api/v2/vessels/", { q, limit: 50 }, key);
 }
