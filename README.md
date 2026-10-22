@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/tttt-netizen/sealagom-api/main/brand/mark.svg" width="72" alt="">
+<img src="brand/mark.svg" width="72" alt="">
 
 # SeaLagom tools
 
