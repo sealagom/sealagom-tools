@@ -76,3 +76,5 @@ https://www.sealagom.com/github/.
 The warnings are the authority; the analysis is machine-made and can be wrong. Credit SeaLagom,
 www.sealagom.com, where the data is shown. The arithmetic here is an aid, never a substitute for
 the ship's own navigation.
+
+All SeaLagom code on GitHub: https://github.com/sealagom (API kit, tools, Android app, browser extension).
