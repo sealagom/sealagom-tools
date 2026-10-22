@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/tttt-netizen/sealagom-api/main/brand/mark.svg" width="72" alt="">
+
 # SeaLagom tools
 
 Free, MIT, no dependencies: the arithmetic a navigator uses every day, in JavaScript and Python,
