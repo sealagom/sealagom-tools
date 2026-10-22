@@ -14,6 +14,7 @@ plus thin helpers for the SeaLagom API (ports, distances, route analysis, weathe
 | Route files: RTZ, GPX, KML, CSV and TXT lists, NMEA WPL | `js/route-files.mjs` | use the API: `POST /api/v2/route/` reads them all |
 | Route converter: any of those in, RTZ, GPX, KML, CSV or NMEA out | `js/route-convert.mjs` | `POST /api/v2/route/convert/?to=rtz` |
 | Ports, port distances, coast stations, vessels by name or MMSI, warnings near, weather, route analysis with weather | `js/api.mjs` | `python/sealagom.py` in the API kit |
+| A ready-to-run Telegram bot: the same questions, in your own chat | `telegram/bot.mjs` | - |
 
 ```js
 import { rhumbLine, eta, trueWind, beaufort } from "./js/navigation.mjs";
@@ -70,6 +71,25 @@ allowance; the same key for ports, stations, vessels, weather and the route anal
 with GitHub). When a plan does not cover a call, the error carries `upgrade`: the plan, the price
 for that request and the links. The full API kit (OpenAPI spec, clients, MCP server) is at
 https://www.sealagom.com/github/.
+
+## A Telegram bot of your own
+
+`telegram/bot.mjs` is a complete, runnable Telegram bot built only on `js/api.mjs`: no dependency
+beyond Node 18+. It is not @sealagom_bot (that one also links accounts, watches regions and takes
+payment, which is specific to that deployment) - it is the same questions, answerable from your own
+bot with your own token, for you to extend.
+
+```bash
+# get a token from @BotFather on Telegram (/newbot), then:
+TELEGRAM_BOT_TOKEN=123456:AA... node telegram/bot.mjs
+
+# /weather and /route also need a free SeaLagom API key (https://www.sealagom.com/profile/?tab=api):
+TELEGRAM_BOT_TOKEN=123456:AA... SEALAGOM_API_KEY=sk_... node telegram/bot.mjs
+```
+
+Commands: `/near <lat> <lon> [nm]`, `/port <name>`, `/vessel <name|MMSI>`, `/stations <lat> <lon>`,
+`/weather <lat> <lon>`, `/route <lat,lon;lat,lon;...> [knots]`, `/help`. The formatting and parsing
+(`telegram/format.mjs`) has no network in it, so `npm test` covers it without a token.
 
 ## Rules of the data
 

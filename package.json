@@ -1,14 +1,18 @@
 {
   "name": "sealagom-tools",
-  "version": "1.1.0",
-  "description": "Navigation arithmetic (distances, ETA, true wind), route files and a route converter, SeaLagom API helpers",
+  "version": "1.2.0",
+  "description": "Navigation arithmetic (distances, ETA, true wind), route files and a route converter, SeaLagom API helpers, a ready-to-run Telegram bot",
   "type": "module",
   "main": "js/navigation.mjs",
+  "bin": {
+    "sealagom-telegram-bot": "./telegram/bot.mjs"
+  },
   "exports": {
     ".": "./js/navigation.mjs",
     "./route-files": "./js/route-files.mjs",
     "./api": "./js/api.mjs",
-    "./route-convert": "./js/route-convert.mjs"
+    "./route-convert": "./js/route-convert.mjs",
+    "./telegram": "./telegram/format.mjs"
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs"
