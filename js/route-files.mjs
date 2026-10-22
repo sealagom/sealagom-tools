@@ -9,10 +9,51 @@
  * (LineString or Placemark points), CSV / TXT waypoint lists, NMEA 0183 $..WPL / $..RTE sentences.
  */
 
+/**
+ * XML without a DOM (Node, workers): a small element scanner that understands what route files use:
+ * elements, attributes and text. Browsers use DOMParser; pass your own parser as the third argument
+ * to override either.
+ */
+function miniXml(text) {
+  const src = String(text).replace(/<\?[\s\S]*?\?>/g, "").replace(/<!--[\s\S]*?-->/g, "");
+  const tagRe = /<\/?([A-Za-z_][\w.:-]*)((?:\s+[\w.:-]+\s*=\s*(?:"[^"]*"|'[^']*'))*)\s*(\/?)>/g;
+  const root = { localName: "#root", attrs: {}, children: [], text: "" };
+  const stack = [root];
+  let last = 0, m;
+  while ((m = tagRe.exec(src))) {
+    const parent = stack[stack.length - 1];
+    parent.text += src.slice(last, m.index);
+    last = tagRe.lastIndex;
+    if (m[0].startsWith("</")) {
+      if (stack.length > 1) stack.pop();
+      continue;
+    }
+    const attrs = {};
+    for (const a of m[2].matchAll(/([\w.:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) attrs[a[1].split(":").pop()] = a[2] ?? a[3];
+    const el = { localName: m[1].split(":").pop(), attrs, children: [], text: "", parent };
+    parent.children.push(el);
+    if (!m[3]) stack.push(el);
+  }
+  const wrap = (el) => ({
+    localName: el.localName,
+    getAttribute: (k) => (k in el.attrs ? el.attrs[k] : null),
+    get textContent() {
+      return el.text + el.children.map((c) => wrap(c).textContent).join("");
+    },
+    getElementsByTagName: () => {
+      const out = [];
+      const walk = (n) => n.children.forEach((c) => { out.push(wrap(c)); walk(c); });
+      walk(el);
+      return out;
+    },
+  });
+  return wrap(root);
+}
+
 function parseXml(text, parser) {
   if (parser) return parser(text);
   if (typeof DOMParser !== "undefined") return new DOMParser().parseFromString(text, "application/xml");
-  throw new Error("No XML parser: pass one as the third argument (e.g. (t) => new (require('@xmldom/xmldom').DOMParser)().parseFromString(t))");
+  return miniXml(text);
 }
 
 const num = (v) => {
