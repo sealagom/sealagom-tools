@@ -10,6 +10,7 @@ plus thin helpers for the SeaLagom API (ports, distances, route analysis, weathe
 | True wind from apparent and back, Beaufort | same | same |
 | Nautical time zone from longitude, positions as DD-MM.MMN and back | same | same |
 | Route files: RTZ, GPX, KML, CSV and TXT lists, NMEA WPL | `js/route-files.mjs` | use the API: `POST /api/v2/route/` reads them all |
+| Route converter: any of those in, RTZ, GPX, KML, CSV or NMEA out | `js/route-convert.mjs` | `POST /api/v2/route/convert/?to=rtz` |
 | Ports, port distances, coast stations, warnings near, weather, route analysis with weather | `js/api.mjs` | `python/sealagom.py` in the API kit |
 
 ```js
@@ -36,7 +37,21 @@ arrival, hours = eta("2026-10-22T06:00:00Z", d, 14)
 print(d, c, arrival, true_wind(195, 14, 40, 22), beaufort(22))
 ```
 
-Tests: `node --test tests/navigation.test.mjs` and `python python/sealagom_tools.py`.
+Route converter, no API needed:
+
+```bash
+node js/route-convert.mjs passage.gpx passage.rtz      # also .kml .csv .nmea .gpx
+```
+
+```js
+import { convertRoute } from "./js/route-convert.mjs";
+const rtz = convertRoute("passage.gpx", gpxText, "rtz");   // the RTZ 1.1 file as a string, ready for the ECDIS
+```
+
+The same converter runs on the server for every API key: `POST /api/v2/route/convert/?to=rtz` with the
+file as `file` (or JSON waypoints), and the converted file comes back as a download.
+
+Tests: `npm test` (navigation and converter) and `python python/sealagom_tools.py`.
 
 ## Formulas
 

@@ -1,11 +1,18 @@
 {
   "name": "sealagom-tools",
-  "version": "1.0.0",
-  "description": "Navigation arithmetic (distances, ETA, true wind, route files) and SeaLagom API helpers",
+  "version": "1.1.0",
+  "description": "Navigation arithmetic (distances, ETA, true wind), route files and a route converter, SeaLagom API helpers",
   "type": "module",
   "main": "js/navigation.mjs",
-  "exports": { ".": "./js/navigation.mjs", "./route-files": "./js/route-files.mjs", "./api": "./js/api.mjs" },
-  "scripts": { "test": "node --test tests/navigation.test.mjs" },
+  "exports": {
+    ".": "./js/navigation.mjs",
+    "./route-files": "./js/route-files.mjs",
+    "./api": "./js/api.mjs",
+    "./route-convert": "./js/route-convert.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  },
   "license": "MIT",
   "homepage": "https://www.sealagom.com/developers/"
 }
